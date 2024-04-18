@@ -223,7 +223,7 @@ def main():
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_pos = pygame.mouse.get_pos()
-                # Έλεγχος αν κάποιο από τα κουμπιά του μενού κεντρίστηκε
+                # Έλεγχος αν κάποιο από τα κουμπιά του μενού πατήθηκε
                 if start_button.is_clicked(mouse_pos):
                     play_game()
                 elif exit_button.is_clicked(mouse_pos):
