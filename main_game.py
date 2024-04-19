@@ -92,11 +92,7 @@ def draw_board(board):
                 pygame.draw.circle(screen, YELLOW, (int(c * SQUARESIZE + SQUARESIZE / 2), HEIGHT - int(r * SQUARESIZE + SQUARESIZE / 2)), RADIUS)
 
 
-def draw_score(score):
-    # Εμφάνιση του σκορ στην οθόνη
-    font = pygame.font.SysFont("monospace", 40)
-    label = font.render(f"Score - Player 1: {score[0]}, Player 2: {score[1]}", 1, (255, 255, 255))
-    screen.blit(label, (WIDTH - SCORE_WIDTH + 10, 10))
+
 
 
 def show_winner(winner):
@@ -107,20 +103,19 @@ def show_winner(winner):
     pygame.display.update()
     time.sleep(2)
 
-                
-
 
 def play_game():
     # Κύριος κώδικας του παιχνιδιού
     board = create_board()
+
+    #δείχνει αν τρέχει το παιχνίδι
     game_over = False
     turn = 0
     score = [0, 0]
-
     draw_board(board)
-    draw_score(score)
+    
     pygame.display.update()
-
+    game_paused = False
     while not game_over:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -133,7 +128,6 @@ def play_game():
                 pygame.draw.circle(screen, RED if turn == 0 else YELLOW, (int(posx), int(SQUARESIZE / 2)), RADIUS)
                 col = int(posx // SQUARESIZE)
                 pygame.display.update()
-
             if event.type == pygame.MOUSEBUTTONDOWN:
                 pygame.draw.rect(screen, BLUE, (0, 0, WIDTH, SQUARESIZE))
                 posx = event.pos[0]
@@ -150,27 +144,30 @@ def play_game():
                         show_winner(winner)
                         time.sleep(2)
 
-                        choice = show_restart_menu()
-                        if choice == "play_again":
-                            return
-                        elif choice == "reset_score":
-                            score = [0, 0]
-                        elif choice == "quit":
-                            return
+                        
 
                         board = create_board()
                         draw_board(board)
-                        draw_score(score)
+                        
                         pygame.display.update()
                         continue
 
                 draw_board(board)
-                draw_score(score)
+                
                 pygame.display.update()
 
                 turn += 1
                 turn %= 2
 
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                result=display_menu()
+                draw_board(board)
+                pygame.display.update()
+
+            
+        
+        
+        
         if is_board_full(board) and not winning_move(board, 1) and not winning_move(board, 2):
             pygame.draw.rect(screen, (0, 0, 0), (WIDTH // 4, HEIGHT // 3, WIDTH // 2, HEIGHT // 3))
             pygame.draw.rect(screen, (255, 255, 255), (WIDTH // 4 + 5, HEIGHT // 3 + 5, WIDTH // 2 - 10, HEIGHT // 3 - 10))
@@ -206,33 +203,88 @@ def play_game():
 
                         board = create_board()
                         draw_board(board)
-                        draw_score(score)
+                        
                         pygame.display.update()
 
 
-def main():
-    # Κύριος κώδικας του παιχνιδιού
-    start_button = Button(screen, WIDTH // 4, HEIGHT // 3, WIDTH // 2, HEIGHT // 6, "Start Game")
-    exit_button = Button(screen, WIDTH // 4, HEIGHT // 3 * 2, WIDTH // 2, HEIGHT // 6, "Exit")
+def display_menu():
+    # Δημιουργία της οθόνης μενού
+    menu_running = True     #το μενού είναι ανοικτό
 
-    while True:
+    #Δημιουργεί τα παρακάτω κουμπιά
+    continue_button = Button(screen, WIDTH // 4, HEIGHT // 5, WIDTH // 2, HEIGHT // 6, "Continue")
+    new_game_button = Button(screen, WIDTH // 4, HEIGHT // 5 * 2, WIDTH // 2, HEIGHT // 6, "New Game")
+    exit_button = Button(screen, WIDTH // 4, HEIGHT // 5 * 3, WIDTH // 2, HEIGHT // 6, "Exit")
+
+    #όσο το μενού είναι ανοικτό 
+    while menu_running:
+        #σχεδιάζει τα κουμπιά
+        screen.fill((0, 0, 128))
+        continue_button.draw()
+        new_game_button.draw()
+        exit_button.draw()
+
+        pygame.display.update()
         for event in pygame.event.get():
+            #τερματίζει το πρόγραμμα
             if event.type == pygame.QUIT:
                 pygame.quit()
                 exit()
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_pos = pygame.mouse.get_pos()
-                # Έλεγχος αν κάποιο από τα κουμπιά του μενού πατήθηκε
-                if start_button.is_clicked(mouse_pos):
+                #Αν πατηθεί το continue κλείνει το παράθυρο του menu και συνεχίζει το παιχνίδι 
+                if continue_button.is_clicked(mouse_pos):
+                    menu_running = False
+                    
+                    
+                    
+                #Αν πατηθεί το new_game κλείνει το παράθυρο του menu και αρχίζει νέο παιχνίδι
+                elif new_game_button.is_clicked(mouse_pos):
                     play_game()
+                    menu_running = False
+                
+
                 elif exit_button.is_clicked(mouse_pos):
                     pygame.quit()
                     exit()
+      
+def main():
+    # Κύριος κώδικας του παιχνιδιού
+    
+    start_button = Button(screen, WIDTH // 4, HEIGHT // 5, WIDTH // 2, HEIGHT // 6, "Start Game")
+    exit_button = Button(screen, WIDTH // 4, HEIGHT // 5* 2, WIDTH // 2, HEIGHT // 6, "Exit")
+    
 
-        screen.fill((0, 0, 0))
+    
+
+
+    while True:
+        for event in pygame.event.get():
+            #Αν πατήσεις X κλείνει το πρόγραμμα
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_pos = pygame.mouse.get_pos()
+                # Έλεγχος αν κάποιο από τα κουμπιά του μενού πατήθηκε
+                #Ξεκινά το παιχνίδι
+                if start_button.is_clicked(mouse_pos):
+                    play_game()
+
+                #Τερματίζει το παιχνίδι
+                elif exit_button.is_clicked(mouse_pos):
+                    pygame.quit()
+                    exit()
+                
+                
+
+        screen.fill((0, 0, 128))
         start_button.draw()
         exit_button.draw()
+        
         pygame.display.update()
 
 
