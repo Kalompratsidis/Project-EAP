@@ -142,7 +142,9 @@ def play_game():
                     if winning_move(board, 1 if turn == 0 else 2):
                         winner = 1 if turn == 0 else 2
                         print(f"Player {winner} wins!")
-                        
+                        #Εμφανίζει και το 4ο πιόνι
+                        draw_board(board)
+
                         show_winner(winner)
                         
                         
