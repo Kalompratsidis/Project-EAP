@@ -76,6 +76,9 @@ def is_board_full(board):
 
 
 def draw_board(board):
+    #λύνει το πρόβλημα με το χρώμα στην πάνω γραμμη. Τώρα το χρώμα είναι από την αρχή μπλε και δδεν αλλάζει όταν κινούμε τον κέρσορα
+    screen.fill((0, 0, 255))
+    
     for c in range(COLUMN_COUNT):
         for r in range(ROW_COUNT):
             # Σχεδίαση των τετραγώνων του πίνακα
