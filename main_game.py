@@ -78,7 +78,7 @@ def is_board_full(board):
 def draw_board(board):
     #λύνει το πρόβλημα με το χρώμα στην πάνω γραμμη. Τώρα το χρώμα είναι από την αρχή μπλε και δδεν αλλάζει όταν κινούμε τον κέρσορα
     screen.fill((0, 0, 255))
-    
+
     for c in range(COLUMN_COUNT):
         for r in range(ROW_COUNT):
             # Σχεδίαση των τετραγώνων του πίνακα
@@ -161,11 +161,15 @@ def play_game():
 
                 turn += 1
                 turn %= 2
-
+            #Πατώντας το esc εμφανίζεται το κύριο menu 
             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                 result=display_menu()
-                draw_board(board)
-                pygame.display.update()
+                #Αν πατηθεί το continue επιστρέφει 1
+                #Αν το result εχει τιμή 1 τότε εμφανίζεται ο πίνακας όπως τον είχαμε αφήσει
+                if result==1:
+                    draw_board(board)
+                    print(result)   #Εμφανίζει στην κονσόλα την τιμή του result για debugging
+                    pygame.display.update() #Ανανεώνει την εικόνα στην οθόνη  
 
             
         
@@ -237,9 +241,10 @@ def display_menu():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_pos = pygame.mouse.get_pos()
                 #Αν πατηθεί το continue κλείνει το παράθυρο του menu και συνεχίζει το παιχνίδι 
+                #Αν πατηθεί το continue επιστρέφει 1
                 if continue_button.is_clicked(mouse_pos):
                     menu_running = False
-                    
+                    return 1
                     
                     
                 #Αν πατηθεί το new_game κλείνει το παράθυρο του menu και αρχίζει νέο παιχνίδι
