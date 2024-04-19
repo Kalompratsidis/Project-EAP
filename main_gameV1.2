@@ -101,10 +101,13 @@ def draw_board(board):
 def show_winner(winner):
     # Εμφάνιση του νικητή
     font = pygame.font.SysFont("monospace", 75)
-    label = font.render(f"Player {winner} wins!", 1, (255, 255, 255))
-    screen.blit(label, (40, HEIGHT // 2 - 50))
+    text_surface = font.render(f"Player {winner} wins!", True, (0, 0, 0))
+    text_rect = text_surface.get_rect(center=(WIDTH // 2, HEIGHT // 2))
+    pygame.draw.rect(screen, (0, 0,115 ), text_rect)  
+    screen.blit(text_surface, text_rect)
     pygame.display.update()
-    time.sleep(0.8)
+    time.sleep(1)
+
 
 
 def play_game():
