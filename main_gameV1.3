@@ -9,7 +9,7 @@ COLUMN_COUNT = 7
 SQUARESIZE = 100
 RADIUS = int(SQUARESIZE / 2.5)
 WIDTH = COLUMN_COUNT * SQUARESIZE
-HEIGHT = ROW_COUNT  * SQUARESIZE  
+HEIGHT = (ROW_COUNT+1)  * SQUARESIZE  
 move_timer = None 
 # Χρώματα
 BLUE = (0, 0, 255)
@@ -45,7 +45,7 @@ def drop_piece(board, row, col, piece):
 
 # Έλεγχος αν μια στήλη είναι διαθέσιμη για τοποθέτηση πιονιού
 def is_valid_location(board, col):
-    return board[ROW_COUNT - 2][col] == 0 and col >= 0 and col < COLUMN_COUNT
+    return board[ROW_COUNT - 1][col] == 0 and col >= 0 and col < COLUMN_COUNT
 
 # Εύρεση της πρώτης διαθέσιμης σειράς για τοποθέτηση
 def get_next_open_row(board, col):
