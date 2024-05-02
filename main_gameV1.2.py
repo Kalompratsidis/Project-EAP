@@ -1,7 +1,7 @@
 import numpy as np
 import pygame
-import time
 from Button import Button
+
 # Σταθερές
 ROW_COUNT = 6
 COLUMN_COUNT = 7
