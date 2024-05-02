@@ -21,7 +21,8 @@ class Button:
         pygame.draw.rect(self.window, self.button_color, (self.x, self.y, self.width, self.height))
 
         # Προσθήκη κειμένου μέσα στο κουμπί
-        font = pygame.font.Font(None, 36)
+        font_path="game_font.ttf"
+        font = pygame.font.Font(font_path, 36)
         text_surface = font.render(self.text, True, self.text_color)
         text_rect = text_surface.get_rect(center=self.center)
         self.window.blit(text_surface, text_rect)
